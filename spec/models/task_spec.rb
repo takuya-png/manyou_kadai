@@ -7,7 +7,7 @@ describe 'タスクモデル機能', type: :model do
         expect(task).not_to be_valid
       end
     end
-　　context 'タスクの詳細が空の場合' do
+    context 'タスクの詳細が空の場合' do
       it 'バリデーションにひっかかる' do
         task = Task.new(title:'失敗テスト',content:'')
         expect(task).not_to be_valid

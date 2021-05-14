@@ -6,11 +6,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         visit new_task_path
         fill_in 'task[title]', with: 'test_task'
         # binding.irb
-        fill_in 'task[content]', with: 'content_test'
-        click_on '投稿する'
-        visit tasks_path
-        expect(page).to have_content 'test_task'
-        expect(page).to have_content 'content_test'
+        click_button 'Create Task'
       end
     end
   end

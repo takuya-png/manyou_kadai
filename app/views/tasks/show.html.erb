@@ -1,0 +1,17 @@
+<article class="tasks_show">
+  <h2>タスク詳細</h2>
+  <ul class="tasklist">
+    <li>
+      <p><strong>Task_Name:</strong></p>
+      <p><%= @task.title %></P>
+
+      <p><strong>Content:</strong></p>
+      <p><%= @task.content %></p>
+
+      <p><span class="item_name">タスク名</span> <%= @task.title %></p>
+      <p><span class="item_name">内容</span> <%= @task.content %></p>
+    </li>
+  </ul>
+  <br>
+  <p class="goto_back"><%= link_to 'Back', tasks_path %></p>
+</article>

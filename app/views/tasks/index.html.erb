@@ -1,0 +1,43 @@
+<article class="tasks_index">
+  <h2>タスク一覧</h2>
+  <% if notice %>
+    <p class="alert alert-info"><%= notice %></p>
+  <% end %>
+
+  <ul class="tasklist">
+    <% @tasks.each do |task| %>
+      <li>
+        <p>
+          <span class="item_name">
+            Task_Name
+          </span>
+          <div class="item_name tasks-index_item_title" id=<%= "tasks-index_item_title-#{task.id}" %>>
+            <%= task.title %>
+          </div>
+          </p>
+        <p>
+          <span class="item_name">
+            Content
+          </span>
+          <div class="item_name tasks-index_item_content" id=<%= "tasks-index_item_content-#{task.id}" %>>
+            <%= task.content %>
+          </div>
+          </p>
+        <p>
+          <span class="item_name">
+            Submission_Date
+          </span>
+          <div class="item_name tasks-index_item_created_at" id=<%= "tasks-index_item_created_at-#{task.id}" %>>
+            <%= l task.created_at, format: :long %>
+          </div>
+          </p>
+        <p class="btns">
+          <%= link_to 'Show', task_path(task.id) %>
+          <%= link_to 'Edit', edit_task_path(task.id), data: { confirm: 'Are you sure to edit?' } %>
+          <%= link_to 'Destroy', task_path(task.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+        </p>
+      </li>
+    <% end %>
+  </ul>
+  <p class="task_new"><%= link_to 'New_Task', new_task_path %></p>
+</article>

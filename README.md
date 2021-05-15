@@ -6,5 +6,3 @@
 |------|-------|
 |string|title  |
 |text	 |content|
-
-

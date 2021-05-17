@@ -3,9 +3,12 @@ FactoryBot.define do
     title { 'test_title' }
     content { 'test_content' }
   end
-  factory :second_task, class: Task do
+  factory :task2, class: Task do
     title { 'test_title2' }
     content { 'test_content2' }
   end
-
+  factory :task3, class: Task do
+    title { 'test_title3' }
+    content { 'test_content3' }
+  end
 end

@@ -10,6 +10,14 @@
   </head>
 
   <body>
+  <header>
+  <div class="content_area">
+  <div class="notification">
+  <% flash.each do |key, value| %>
+    <%= content_tag(:div, value, class: "#{key}") %>
+    <% end %>
+    </div>
+    </header>
     <%= yield %>
   </body>
 </html>

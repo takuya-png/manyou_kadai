@@ -9,7 +9,11 @@ RSpec.describe 'タスク管理機能', type: :system do
         visit new_task_path
         fill_in 'task[title]', with: 'test_task'
         # binding.irb
+        fill_in 'task[content]', with: 'content_test'
         click_button 'Create Task'
+        visit tasks_path
+        expect(page).to have_content 'test_task'
+        expect(page).to have_content 'content_test'
       end
     end
   end
@@ -26,6 +30,14 @@ RSpec.describe 'タスク管理機能', type: :system do
         expect(page).to have_content 'content2'
       end
     end
+    context 'タスクが作成日時の降順に並んでいる場合' do
+      it 'タスクが作成日時の降順に並んでいること' do
+        visit tasks_path
+        task_list = all('tbody td')
+        expect(task_list[0]).to have_content 'task2'
+        expect(task_list[1]).to have_content 'task1'
+      end
+    end
   end
   describe '詳細表示機能' do
      context '任意のタスク詳細画面に遷移した場合' do
@@ -35,13 +47,5 @@ RSpec.describe 'タスク管理機能', type: :system do
         expect(task).to be_valid
        end
      end
-     context 'タスクが作成日時の降順に並んでいる場合' do
-      it 'タスクが作成日時の降順に並んでいること' do
-        visit tasks_path
-        task_list = all('tbody td')
-        expect(task_list[0]).to have_content 'task2'
-        expect(task_list[1]).to have_content 'task1'
-      end
-    end
   end
 end

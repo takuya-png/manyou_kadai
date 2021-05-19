@@ -3,7 +3,7 @@ class TasksController < ApplicationController
   PER = 3
 
   def index
-    @tasks = Task.all
+    @tasks = Task.order(created_at: :desc)
   end
 
   def new
@@ -53,6 +53,6 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title, :content, :daytime, :expired_at, :status, :priority, :user_id)
+    params.require(:task).permit(:title, :content, :expired_at, :status, :priority, :user_id)
   end
 end

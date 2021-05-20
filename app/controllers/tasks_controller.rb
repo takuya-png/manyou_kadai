@@ -3,7 +3,7 @@ class TasksController < ApplicationController
   PER = 3
 
   def index
-    @tasks = Task.all
+    @tasks = Task.order(created_at: :desc)
   end
 
   def new

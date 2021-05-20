@@ -2,7 +2,8 @@ require 'rails_helper'
 RSpec.describe 'タスク管理機能', type: :system do
   let!(:task) { FactoryBot.create(:task, title: 'task', content: 'task', expired_at: '2021-05-1 03:33:00', status: 1, priority: 1) }
   let!(:task2) { FactoryBot.create(:task, title: 'task2', content: 'task2', expired_at: '2021-05-20 03:33:00', status: 2, priority: 2) }
-  let!(:task3) { FactoryBot.create(:task, title: 'task3', content: 'task3', expired_at: '2021-05-10 03:33:00', status: 3, priority: 3) } before do
+  let!(:task3) { FactoryBot.create(:task, title: 'task3', content: 'task3', expired_at: '2021-05-10 03:33:00', status: 3, priority: 3) } 
+  before do
     visit tasks_path
   end
   describe '新規作成機能' do
@@ -91,7 +92,7 @@ RSpec.describe 'タスク管理機能', type: :system do
     describe '詳細表示機能' do
       context '任意のタスク詳細画面に遷移した場合' do
         it '該当タスクの内容が表示される' do
-          task = FactoryBot.create(:task,title: 'task_詳細',content: 'content_詳細')
+          # task = FactoryBot.create(:task,title: 'task_詳細',content: 'content_詳細')
           visit task_path(task.id)
           expect(task).to be_valid
         end

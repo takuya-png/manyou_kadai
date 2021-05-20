@@ -1,6 +1,5 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
-  PER = 3
 
   def index
     @tasks = Task.order(created_at: :desc)
@@ -16,7 +15,7 @@ class TasksController < ApplicationController
         render :new
     else
       if @task.save
-        redirect_to tasks_path, notice: "Task was successfully created."
+        redirect_to tasks_path, notice: "タスクを作成しました"
       else
         render :new
       end
@@ -25,7 +24,7 @@ class TasksController < ApplicationController
 
   def update
     if @task.update(task_params)
-      redirect_to task_path(@task), notice: "Task was successfully updated."
+      redirect_to task_path(@task), notice: "タスクを更新しました"
     else
       render :edit
     end
@@ -33,7 +32,7 @@ class TasksController < ApplicationController
 
   def destroy
     @task.destroy
-     redirect_to tasks_path, notice: "Task was successfully deleted."
+     redirect_to tasks_path, notice: "タスクを削除しました"
   end
 
   def show
@@ -53,6 +52,6 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title, :content, :expired_at, :status, :priority, :user_id)
+    params.require(:task).permit(:title, :content, :expired_at, :status, :priority)
   end
 end

@@ -1,25 +1,21 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
-  PER = 3
+  # PER = 3
 
   def index
-    if params[:sort_expired]
-      @tasks = Task.order(expired_at: :desc).page(params[:page]).per(PER)
-    elsif params[:sort_priority]
-      @tasks = Task.order(priority: :desc).page(params[:page]).per(PER)
-    elsif params[:search]
-      if params[:search_title].present? && params[:search_status].present?
-        @tasks = Task.search_title(params[:search_title]).search_status(params[:search_status]).page(params[:page]).per(PER)
-      elsif params[:search_title].present?
-        @tasks = Task.search_title(params[:search_title]).page(params[:page]).per(PER)
-      elsif params[:search_status].present?
-        @tasks = Task.search_status(params[:search_status]).page(params[:page]).per(PER)
-      else
-        @tasks = Task.order(created_at: :desc).page(params[:page]).per(PER)
-      end
-    else
-      @tasks = Task.order(created_at: :desc).page(params[:page]).per(PER)
+    @tasks = Task.all.order(id: :desc)
+
+    @tasks = @tasks.order(expired_at: :desc) if params[:sort_expired]
+    @tasks = @tasks.order(priority: :desc) if params[:sort_priority]
+
+    if params[:task]
+      # if params[:search_title].present? && params[:search_status].present?
+      @tasks = @tasks.search_title(params[:task][:search_title]) if params[:task][:search_title].present?
+      @tasks = @tasks.search_status(params[:task][:search_status]) if params[:task][:search_status] != ""
+      @tasks = @tasks.search_priority(params[:search_priority]) if params[:task][:search_priority].present?
     end
+
+    @tasks = Kaminari.paginate_array(@tasks).page(params[:page]).per(3)
   end
 
   def new

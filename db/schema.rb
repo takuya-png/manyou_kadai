@@ -18,10 +18,10 @@ ActiveRecord::Schema.define(version: 2021_05_12_055224) do
   create_table "tasks", force: :cascade do |t|
     t.string "title"
     t.text "content"
-    t.integer "status", default: 1, null: false
+    t.integer "status", default: 0, null: false
     t.datetime "expired_at", default: -> { "(now() + '1 mon'::interval)" }, null: false
     t.datetime "datetime", default: -> { "(now() + '1 mon'::interval)" }, null: false
-    t.integer "priority", default: 1, null: false
+    t.integer "priority", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["title"], name: "index_tasks_on_title"

@@ -11,7 +11,7 @@
       <%= link_to "登録日が新しい順に戻す", tasks_path %>
     </p>
     <div class="search_box" >
-      <%= form_with(local: true, method: :get, url: tasks_path ) do |form| %>
+      <%= form_with(model: Task.new, local: true, method: :get, url: tasks_path ) do |form| %>
         <%= form.label :search_title, "Task_Name" %>
         <%= form.text_field :search_title, placeholder: "Seach by Task Name" %>
         <%= form.label :search_status %>

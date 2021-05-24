@@ -15,9 +15,9 @@
         <%= form.label :search_title, "タスク名" %>
         <%= form.text_field :search_title, placeholder: "タスク名で検索" %>
         <%= form.label :search_status, "ステータス" %>
-        <%= form.select :search_status, Task.statuses.keys, { include_blank: '選択して下さい'} %>
+        <%= form.select :search_status, Task.statuses.keys, { include_blank: '選択して下さい'}, id: 'search_status' %>
         <%= form.label :search_priority, "優先順位" %>
-        <%= form.select :search_priority, Task.priorities.keys, { include_blank: '選択して下さい'} %>
+        <%= form.select :search_priority, Task.priorities.keys, { include_blank: '選択して下さい'}, id: 'search_priority' %>
 
         <%= form.submit "検索", name: "search" %>
       <% end %>

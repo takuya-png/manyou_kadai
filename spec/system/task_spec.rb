@@ -1,8 +1,8 @@
 require 'rails_helper'
 RSpec.describe 'タスク管理機能', type: :system do
-  let!(:task) { FactoryBot.create(:task, title: 'task', content: 'task', expired_at: '2021-05-1 03:33:00', status: 1, priority: 1) }
-  let!(:task2) { FactoryBot.create(:task, title: 'task2', content: 'task2', expired_at: '2021-05-20 03:33:00', status: 2, priority: 2) }
-  let!(:task3) { FactoryBot.create(:task, title: 'task3', content: 'task3', expired_at: '2021-05-10 03:33:00', status: 3, priority: 3) } 
+  let!(:task) { FactoryBot.create(:task)}
+  let!(:second_task) { FactoryBot.create(:second_task)}
+  let!(:third_task) { FactoryBot.create(:third_task)}
   before do
     visit tasks_path
   end
@@ -31,12 +31,12 @@ RSpec.describe 'タスク管理機能', type: :system do
         # task2 = FactoryBot.create(:task,title: 'task2',content: 'content2')
         visit tasks_path
         expect(tasks_path).to eq tasks_path
-        expect(page).to have_content 'task'
-        expect(page).to have_content 'task2'
-        expect(page).to have_content 'task3'
-        expect(page).to have_content 'aaa'
-        expect(page).to have_content 'bbb'
-        expect(page).to have_content 'ccc'
+        expect(page).to have_content 'test_title'
+        expect(page).to have_content 'test_title2'
+        expect(page).to have_content 'test_title3'
+        expect(page).to have_content 'test_content'
+        expect(page).to have_content 'test_content2'
+        expect(page).to have_content 'test_content3'
       end
     end
     context 'タスクが作成日時の降順に並んでいる場合' do
@@ -67,24 +67,24 @@ RSpec.describe 'タスク管理機能', type: :system do
   describe '検索機能' do
     context 'タイトルで検索した場合' do
       it '該当タイトルのタスクが表示される' do
-        fill_in "search_title", with: "3"
-        click_on 'search'
-        expect(page).to have_content 'task3'
+        fill_in "タスク名で検索", with: "2"
+        click_on '検索'
+        expect(page).to have_content 'test_content2'
       end
     end
     context 'ステータスで検索した場合' do
       it '該当ステータスのタスクが表示される' do
         find("#search_status").find("option[value='完了']").select_option
         click_on 'search'
-        expect(page).to have_content 'task3'
+        expect(page).to have_content Task.find_by(status: '完了').title
       end
     end
     context 'タイトルとステータスの両方で検索した場合' do
       it '該当のタスクが表示される' do
-        fill_in "search_title", with: "2"
+        fill_in "タスク名で検索", with: "2"
         find("#search_status").find("option[value='着手']").select_option
         click_on 'search'
-        expect(page).to have_content 'task2'
+        expect(page).to have_content 'test_content2'
         expect(page).to have_content '着手'
       end
     end

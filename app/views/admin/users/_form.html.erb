@@ -8,7 +8,7 @@
     </ul>
   </div>
 <% end %>
-<%= form_with(model: @user, local: true) do |f| %>
+<%= form_with(model: [:admin, @user], local: true) do |f| %>
   <div class="input_area">
     <%= f.label :name %>
     <br>
@@ -25,6 +25,10 @@
     <%= f.label :password_confirmation %>
     <br>
     <%= f.password_field :password_confirmation, placeholder: "type same password" %>
+    <br>
+    <%= f.label :admin %>
+    <br>
+    <%= f.select :admin, User.admins.keys %>
     <br>
     <%= f.submit yield(:button_text), class: 'button' %>
   </div>

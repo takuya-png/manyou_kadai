@@ -1,12 +1,13 @@
 class Admin::UsersController < ApplicationController
   skip_before_action :login_required, only: [:new, :create]
   before_action :set_user,only: [:edit,:update,:destroy, :show]
+  before_action :not_admin
   def index
     @users = User.select(:id,:name,:email)
   end
 
   def show
-    @task = @user.tasks(params)
+    @task = @user.tasks
   end
 
   def new
@@ -41,6 +42,10 @@ class Admin::UsersController < ApplicationController
   private
   def set_user
     @user = User.find(params[:id])
+  end
+
+  def not_admin
+    redirect_to user_path(current_user.id), notice:"管理画面へは、管理者以外はアクセスできません"   unless current_user.admin == '管理者'
   end
 
   def user_params

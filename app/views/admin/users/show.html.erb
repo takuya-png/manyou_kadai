@@ -1,1 +1,8 @@
-<h1><%= @user.name %><のページ/h1> 
+<h1><%= @user.name %>のMyページ</h1>
+<% @tasks.each do |task| %>
+<div class = "box5">
+<p>タイトル:<%= task.title %></p>
+<p>内容:<%= task.content %></p>
+</div>
+<% end %>
+<button type="button" class="btn btn-default navbar-btn"><%= link_to '一覧へ戻る', admin_users_path %></button>

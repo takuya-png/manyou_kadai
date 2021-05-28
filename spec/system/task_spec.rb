@@ -1,5 +1,6 @@
 require 'rails_helper'
 RSpec.describe 'タスク管理機能', type: :system do
+  let!(:user) {FactoryBot.create(:user,name:'永澤',email:'takuya@docomo.ne.jp',password:'password',admin:'管理者')}
   let!(:task) { FactoryBot.create(:task)}
   let!(:second_task) { FactoryBot.create(:second_task)}
   let!(:third_task) { FactoryBot.create(:third_task)}

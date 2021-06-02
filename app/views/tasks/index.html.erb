@@ -48,8 +48,8 @@
           <span class="item_name">
             登録日
           </span>
-          <div class="item_name tasks-index_item_created_at" id=<%= "tasks-index_item_created_at-#{task.id}" %>>
-            <%= task.created_at, format: :long %>
+          <div class="item_name tasks-index_item_created_at" id = <%= "tasks-index_item_created_at-#{task.id}" %>>
+            <%= l task.created_at, format: :long %>
           </div>
         </p>
         <p>
@@ -57,7 +57,7 @@
             終了期限
           </span>
           <div class="item_name tasks-index_item_expired_at" id=<%= "tasks-index_item_expired_at-#{task.id}" %>>
-            <%= task.expired_at, format: :long %>
+            <%= l task.expired_at, format: :long %>
           </div>
         </p>
         <p>

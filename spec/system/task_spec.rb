@@ -7,9 +7,20 @@ RSpec.describe 'タスク管理機能', type: :system do
   before do
     visit tasks_path
   end
+  
+  def login
+    visit new_session_path
+    fill_in "session[email]", with: "takuya@docomo.ne.jp"
+    fill_in "session[password]", with: "password"
+    click_on "Log in"
+    visit tasks_path
+  end
+
   describe '新規作成機能' do
     context 'タスクを新規作成した場合' do
       it '作成したタスクが表示される' do
+        login
+
         visit new_task_path
         fill_in "task[title]", with: "task_name"
         fill_in "task[content]", with: "task_content"
@@ -28,9 +39,7 @@ RSpec.describe 'タスク管理機能', type: :system do
   describe '一覧表示機能' do
     context '一覧画面に遷移した場合' do
       it '作成済みのタスク一覧が表示される' do
-        # task = FactoryBot.create(:task,title: 'task',content: 'content')
-        # task2 = FactoryBot.create(:task,title: 'task2',content: 'content2')
-        visit tasks_path
+        login
         expect(tasks_path).to eq tasks_path
         expect(page).to have_content 'test_title'
         expect(page).to have_content 'test_title2'
@@ -42,12 +51,14 @@ RSpec.describe 'タスク管理機能', type: :system do
     end
     context 'タスクが作成日時の降順に並んでいる場合' do
       it '新しいタスクが一番上に表示される' do
+        login
         task_list = all('.tasks-index_item_title')
         expect(task_list.first).to have_content Task.order(created_at: :desc).first.title
       end
     end
     context 'タスクが終了期限の降順に並んでいる場合' do
       it '終了期限の遅いタスクが一番上に表示される' do
+        login
         within '.sort_expired' do
           click_on '終了期限でソートする'
         end
@@ -57,6 +68,7 @@ RSpec.describe 'タスク管理機能', type: :system do
     end
     context 'タスクが優先順位の高い順に並んでいる場合' do
       it '優先順位の高いタスクが一番上に表示される' do
+        login
         within '.sort_expired' do
           click_on '優先順位でソートする'
         end
@@ -68,6 +80,7 @@ RSpec.describe 'タスク管理機能', type: :system do
   describe '検索機能' do
     context 'タイトルで検索した場合' do
       it '該当タイトルのタスクが表示される' do
+        login
         fill_in "タスク名で検索", with: "2"
         click_on '検索'
         expect(page).to have_content 'test_content2'
@@ -75,6 +88,7 @@ RSpec.describe 'タスク管理機能', type: :system do
     end
     context 'ステータスで検索した場合' do
       it '該当ステータスのタスクが表示される' do
+        login
         find("#search_status").find("option[value='完了']").select_option
         click_on 'search'
         expect(page).to have_content Task.find_by(status: '完了').title
@@ -82,6 +96,7 @@ RSpec.describe 'タスク管理機能', type: :system do
     end
     context 'タイトルとステータスの両方で検索した場合' do
       it '該当のタスクが表示される' do
+        login
         fill_in "タスク名で検索", with: "2"
         find("#search_status").find("option[value='着手']").select_option
         click_on 'search'
@@ -93,7 +108,7 @@ RSpec.describe 'タスク管理機能', type: :system do
     describe '詳細表示機能' do
       context '任意のタスク詳細画面に遷移した場合' do
         it '該当タスクの内容が表示される' do
-          # task = FactoryBot.create(:task,title: 'task_詳細',content: 'content_詳細')
+          login
           visit task_path(task.id)
           expect(task).to be_valid
         end

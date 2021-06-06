@@ -37,7 +37,7 @@
   </div>
 
   <div class="field check_box">
-      <%= form.collection_check_boxes(:label_ids, Label.all, :id, :name) do |b|
+      <%= form.collection_check_box(:label_ids, Label.all, :id, :name) do |b|
         b.label(:"data-value" => b.value) { b.check_box + b.text }
       end %>
   </div>

@@ -26,8 +26,15 @@
 
   <ul class="tasklist">
     <% @tasks.each do |task| %>
-    <%# <tr class="task_row"> %>
       <li>
+      <p>
+          <span class="item_name">
+            ユーザ名
+          </span>
+          <div class="item_name tasks-index_item_user_name" id=<%= "tasks-index_item_user_name-#{task.id}" %>>
+            <%= task.user.name %>
+          </div>
+          </p>
         <p>
           <span class="item_name">
             タスク名
@@ -76,9 +83,16 @@
             <%= task.priority %>
           </div>
           </p>
+          
+          <div class="label_block">
+          <% task.labels.each do |label| %>
+            <span class="label label-success"><%= label.name %></span>
+          <% end %>
+        </div>
+
         <p class="btns">
           <%= link_to '詳細', task_path(task.id) %>
-          <%= link_to '編集', edit_task_path(task.id), data: { confirm: 'Are you sure to edit?' } %>
+          <%= link_to '編集', edit_task_path(task.id), class: "edit_task" %>
           <%= link_to '削除', task_path(task.id), method: :delete, data: { confirm: 'Are you sure?' } %>
         </p>
       </li>

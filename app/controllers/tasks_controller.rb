@@ -13,7 +13,6 @@ class TasksController < ApplicationController
       @tasks = @tasks.search_priority(params[:search_priority]) if params[:task][:search_priority].present?
     end
 
-    # @tasks = Kaminari.paginate_array(@tasks).page(params[:page]).per(3)
     @tasks = Kaminari.paginate_array(current_user.tasks.order(id: :desc)).page(params[:page]).per(3)
   end
 

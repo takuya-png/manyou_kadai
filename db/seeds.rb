@@ -5,16 +5,10 @@ User.create(
   admin: true
   )
 Label.create([
-  { name: '楽しい' },
-  { name: '辛い' },
-  { name: '重要'},
-  { name: 'なんとなく'},
-  { name: 'できれば'},
-  { name: '難題'},
-  { name: '簡単'},
-  { name: '恐ろしい'},
-  { name: '世も末'},
-  { name: 'ありえない'},
+  { name: '喜' },
+  { name: '怒' },
+  { name: '哀'},
+  { name: '楽'},
   ])
 
 i = 1

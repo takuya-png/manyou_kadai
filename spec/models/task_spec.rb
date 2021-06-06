@@ -1,5 +1,9 @@
 require 'rails_helper'
 describe 'タスクモデル機能', type: :model do
+  before do
+    @user = FactoryBot.create(:user,name:'永澤',email:'takuya11111@docomo.ne.jp',password:'password',admin:'管理者')
+    @task = FactoryBot.create(:task, title:'task',content: 'aaa',daytime:'002020-10-08',endtime_at:'002020-10-07',status: 1, priority: 1)
+  end
   describe 'バリデーションのテスト' do
     context 'タスクのタイトルが空の場合' do
       it 'バリデーションにひっかる' do

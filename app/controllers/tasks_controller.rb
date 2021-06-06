@@ -1,20 +1,20 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
-  # PER = 3
 
   def index
+    # binding.irb
     @tasks = Task.order(id: :desc)
     @tasks = Task.order(expired_at: :desc) if params[:sort_expired]
     @tasks = Task.order(priority: :desc) if params[:sort_priority]
 
     if params[:task]
-      # if params[:search_title].present? && params[:search_status].present?
       @tasks = @tasks.search_title(params[:task][:search_title]) if params[:task][:search_title].present?
       @tasks = @tasks.search_status(params[:task][:search_status]) if params[:task][:search_status] != ""
       @tasks = @tasks.search_priority(params[:search_priority]) if params[:task][:search_priority].present?
     end
 
-    @tasks = Kaminari.paginate_array(@tasks).page(params[:page]).per(3)
+    # @tasks = Kaminari.paginate_array(@tasks).page(params[:page]).per(3)
+    @tasks = Kaminari.paginate_array(current_user.tasks.order(id: :desc)).page(params[:page]).per(3)
   end
 
   def new
@@ -22,7 +22,7 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = Task.new(task_params)
+    @task = current_user.tasks.build(task_params)
     if params[:back]
         render :new
     else
@@ -44,7 +44,7 @@ class TasksController < ApplicationController
 
   def destroy
     @task.destroy
-     redirect_to tasks_path, notice: "タスクを削除しました"
+    redirect_to tasks_path, notice: "タスクを削除しました"
   end
 
   def show
@@ -64,6 +64,6 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title, :content, :expired_at, :status, :priority)
+    params.require(:task).permit(:title, :content, :expired_at, :status, :priority, :user_id)
   end
 end

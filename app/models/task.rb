@@ -3,6 +3,7 @@ class Task < ApplicationRecord
   validates :content, presence: true
   validates :expired_at, presence: true
   validates :status, presence: true
+  belongs_to :user
   enum status: { 未着手: 0, 着手: 1, 完了: 2 }
   enum priority: { 低: 0, 中: 1, 高: 2 }
   scope :search_title, -> (search_title) { where("title LIKE ?", "%#{search_title}%") }

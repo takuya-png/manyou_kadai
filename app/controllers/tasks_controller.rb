@@ -2,6 +2,7 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   def index
+    # binding.irb
     @tasks = Task.order(id: :desc)
     @tasks = Task.order(expired_at: :desc) if params[:sort_expired]
     @tasks = Task.order(priority: :desc) if params[:sort_priority]
@@ -12,7 +13,8 @@ class TasksController < ApplicationController
       @tasks = @tasks.search_priority(params[:search_priority]) if params[:task][:search_priority].present?
     end
 
-    @tasks = Kaminari.paginate_array(@tasks).page(params[:page]).per(3)
+    # @tasks = Kaminari.paginate_array(@tasks).page(params[:page]).per(3)
+    @tasks = Kaminari.paginate_array(current_user.tasks.order(id: :desc)).page(params[:page]).per(3)
   end
 
   def new

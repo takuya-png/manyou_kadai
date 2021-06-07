@@ -5,9 +5,9 @@ RSpec.describe 'ラベル登録機能', type: :system do
     visit new_session_path
     fill_in "session_email", with: "user1@example.com"
     fill_in "session_password", with: "password1"
-    # within '.actions' do
+    within '.actions' do
       click_button 'Log in'
-    # end
+    end
     visit tasks_path
   end
   describe 'ラベル登録のテスト' do

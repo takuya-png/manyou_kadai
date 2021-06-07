@@ -1,55 +1,47 @@
-User.create(
-  name: "sample",
-  email: "sample@example.com",
-  password: "password",
-  admin: true
-  )
-Label.create([
-  { name: '喜' },
-  { name: '怒' },
-  { name: '哀'},
-  { name: '楽'},
-  ])
-
-# i = 1
-# 10.times do
-#   name = ('a'..'z').to_a.shuffle[1..5].join
-#   User.create(
-#     name: name,
-#     email: "#{i}@example.com",
-#     password: "password",
-#     admin: false
-#   )
-#   i += 1
-# end
-
-# 10.times do
-#   i = 1
-#   d1 = Date.parse("2021/04/13")
-#   d2 = Date.parse("2021/08/30")
-#   date = Random.rand(d1..d2)
-#   title = ('a'..'z').to_a.shuffle[1..11].join
-#   content = ('A'..'Z').to_a.shuffle[1..15].join
-#   status = Random.rand(1..2)
-#   priority = Random.rand(1..2)
-#   user_id = Random.rand(1..8)
-#   Task.create(
-#     title: title,
-#     content: content,
-#     endtime_at: date,
-#     status: status,
-#     priority: priority,
-#     user_id: user_id
-#   )
-#   i += 1
-# end
-
-# task_id = 1
-# 10.times do
-#   label_id = Random.rand(1..9)
-#   TaskLabel.create(
-#     task_id: task_id,
-#     label_id: label_id
-#   )
-#   task_id += 1
-# end 
+name = "takuya"
+email = "takuy@gmail.com"
+password = "takuya"
+User.create!(name: name,
+             email: email,
+             password: password,
+             password_confirmation: password,
+             admin: true
+             )
+             9.times do |n|
+              name = Faker::Games::Pokemon.name
+              email = Faker::Internet.email
+              password = "password"
+              User.create!(name: name,
+                           email: email,
+                           password: password,
+                           password_confirmation: password,
+                           admin: false
+                           )
+            end
+            
+            Label.create!(
+             [
+               {name: 'HTML'},
+               {name: 'CSS'},
+               {name: 'Javascript'},
+               {name: 'Ruby'},
+               {name: 'Ruby on Rails'},
+               {name: 'Git/GitHub'},
+               {name: '課題'},
+               {name: 'グループワーク'},
+               {name: 'ブレスト'},
+               {name: '卒業課題'}
+             ]
+            )
+            
+            10.times do |n|
+              title = Faker::Games::Pokemon.move
+              content = Faker::Games::Pokemon.location
+              expired_at = Faker::Date.between(from: '2021-05-27', to: '2021-09-27')
+              user_id = n + 1
+              Task.create!(title: title,
+                           content: content,
+                           expired_at: expired_at,
+                           user_id: user_id,
+                           )
+            end

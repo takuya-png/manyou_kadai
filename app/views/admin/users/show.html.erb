@@ -1,8 +1,44 @@
-<h1><%= @user.name %>のMyページ</h1>
-<% @tasks.each do |task| %>
-<div class = "box5">
-<p>タイトル:<%= task.title %></p>
-<p>内容:<%= task.content %></p>
-</div>
-<% end %>
-<button type="button" class="btn btn-default navbar-btn"><%= link_to '一覧へ戻る', admin_users_path %></button>
+<article class="admin_show">
+  <h2>管理画面：ユーザー情報詳細</h2>
+  <% if notice %>
+    <p class="alert alert-info"><%= notice %></p>
+  <% end %>
+  <section class="profile_block">
+    <p><span class="item_name">ID</span> <%= @user.id %></p>
+    <p><span class="item_name">名前</span> <%= @user.name %></p>
+    <p><span class="item_name">メールアドレス</span> <%= @user.email %></p>
+    <p><span class="item_name">管理権限</span> <%= @user.admin == "管理者" ? "あり" : "なし" %></p>
+  </section>
+  <ul class="tasklist">
+    <% @tasks.each do |task| %>
+    <li>
+      <div class="upper">
+        <p><span class="item_name">タスク名</span> <%= task.title %></p>
+        <p><span class="item_name">内容</span> <%= task.content %></p>
+      </div>
+      <div class="lower">
+        <p><span class="item_name">登録日時</span> <%= l task.created_at, format: :long %></p>
+        <p><span class="item_name">終了期限</span> <%= l task.expired_at, format: :long %></p>
+        <p><span class="item_name">ステータス</span> <%= task.status %></p>
+        <p><span class="item_name">優先順位</span> <%= task.priority %></p>
+        <div class="label_block">
+          <% task.labels.each do |label| %>
+            <span class="label label-success"><%= label.name %></span>
+          <% end %>
+        </div>
+      </div>
+      <div class="btns">
+        <div class="innerblock">
+          <%= link_to '詳細を確認する', task_path(task.id), class: "show_task" %>
+          <%= link_to "タスクを編集する", edit_task_path(task.id), class: "edit_task" %>
+          <%= link_to 'タスクを削除する', task_path(task.id), method: :delete ,data: { confirm: '本当に削除していいですか？' }, class: "delete_task" %>
+        </div>
+      </div>
+    </li>
+    <% end %>
+  </ul>
+  <div class="pagination_block">
+    <%= paginate @tasks %>
+  </div>
+  <p class="goto_back"><%= link_to "ユーザー一覧画面にもどる", admin_users_path %></p>
+</article>

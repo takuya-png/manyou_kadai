@@ -6,7 +6,7 @@ RSpec.describe 'ラベル登録機能', type: :system do
     fill_in "session_email", with: "user1@example.com"
     fill_in "session_password", with: "password1"
     within '.actions' do
-      click_button 'Log in'
+      click_on 'Log in'
     end
     visit tasks_path
   end

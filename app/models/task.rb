@@ -4,8 +4,8 @@ class Task < ApplicationRecord
   validates :expired_at, presence: true
   validates :status, presence: true
   belongs_to :user
-  has_many :task_labels, dependent: :destroy
-  has_many :labels, through: :task_labels
+  has_many :labellings, dependent: :destroy
+  has_many :labels, through: :labellings
   enum status: { 未着手: 0, 着手: 1, 完了: 2 }
   enum priority: { 低: 0, 中: 1, 高: 2 }
   scope :search_title, -> (search_title) { where("title LIKE ?", "%#{search_title}%") }

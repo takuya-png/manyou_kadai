@@ -2,21 +2,46 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   def index
-    # binding.irb
-    @tasks = Task.order(id: :desc)
-    @tasks = Task.order(expired_at: :desc) if params[:sort_expired]
-    @tasks = Task.order(priority: :desc) if params[:sort_priority]
-
-    if params[:task]
-      @tasks = @tasks.search_title(params[:task][:search_title]) if params[:task][:search_title].present?
-      @tasks = @tasks.search_status(params[:task][:search_status]) if params[:task][:search_status] != ""
-      @tasks = @tasks.search_priority(params[:search_priority]) if params[:task][:search_priority].present?
+    if params[:sort_expired]
+      # binding.irb
+      @tasks = Kaminari.paginate_array(Task.all.order(endtime_at: :desc)).page(params[:page]).per(3)  
+      
+    elsif params[:sort_priority]
+      # binding.irb 
+      @tasks = Kaminari.paginate_array(current_user.tasks.order(priority: :desc)).page(params[:page]).per(3)
+      
+    elsif params[:search]
+      # binding.irb
+      if params[:task][:search_title].present? && params[:task][:search_status].present?
+        # binding.irb
+        @tasks = Kaminari.paginate_array(current_user.tasks.search_title(params[:search_title]).search_status(params[:search_status])).page(params[:page]).per(3)
+        
+      elsif params[:task][:search_title].present?
+        # binding.irb
+        @tasks = Kaminari.paginate_array(current_user.tasks.search_title(params[:task][:search_title])).page(params[:page]).per(3)
+        
+      elsif params[:task][:search_status].present?
+        # binding.irb
+        @tasks = Kaminari.paginate_array(current_user.tasks.search_status(params[:task][:search_status])).page(params[:page]).per(3)
+        
+      elsif params[:task][:search_priority].present?
+        # binding.irb
+        @tasks = Kaminari.paginate_array(current_user.tasks.search_priority(params[:task][:search_priority])).page(params[:page]).per(3)
+      elsif params[:task][:search_label].present?
+        # binding.irb
+        @tasks = Kaminari.paginate_array(current_user.tasks.search_label(params[:task][:search_label])).page(params[:page]).per(3)
+        
+      else
+        # binding.irb
+        @tasks = Kaminari.paginate_array(current_user.tasks.order(id: :desc)).page(params[:page]).per(3)
+        # @tasks << @tasks.joins(:labels).where(labels: { id: params[:label_id] }) if params[:label_id].present?
+      end
+      
+    else
+      @tasks = Kaminari.paginate_array(current_user.tasks.order(id: :desc)).page(params[:page]).per(3)
+      # @labels = Label.all
     end
-
-    # @tasks = Kaminari.paginate_array(@tasks).page(params[:page]).per(3)
-    @tasks = Kaminari.paginate_array(current_user.tasks.order(id: :desc)).page(params[:page]).per(3)
-  end
-
+  end  
   def new
     @task = Task.new
   end
@@ -64,6 +89,6 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title, :content, :expired_at, :status, :priority, :user_id)
+    params.require(:task).permit(:title, :content, :expired_at, :status, :priority, :user_id,:user_id, {label_ids: [] })
   end
 end

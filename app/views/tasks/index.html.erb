@@ -18,7 +18,8 @@
         <%= form.select :search_status, Task.statuses.keys, { include_blank: '選択して下さい'}, id: 'search_status' %>
         <%= form.label :search_priority, "優先順位" %>
         <%= form.select :search_priority, Task.priorities.keys, { include_blank: '選択して下さい'}, id: 'search_priority' %>
-
+        <%= form.label :search_label, "ラベル" %>
+        <%= form.select :search_label, Label.pluck(:name, :id), { include_blank: '選択してください' } %></p>
         <%= form.submit "検索", name: "search" %>
       <% end %>
     </div>
@@ -26,8 +27,15 @@
 
   <ul class="tasklist">
     <% @tasks.each do |task| %>
-    <%# <tr class="task_row"> %>
       <li>
+      <p>
+          <span class="item_name">
+            ユーザ名
+          </span>
+          <div class="item_name tasks-index_item_user_name" id=<%= "tasks-index_item_user_name-#{task.id}" %>>
+            <%= task.user.name %>
+          </div>
+          </p>
         <p>
           <span class="item_name">
             タスク名
@@ -76,9 +84,16 @@
             <%= task.priority %>
           </div>
           </p>
+          
+          <div class="label_block">
+          <% task.labels.each do |label| %>
+            <span><%= label.name %></span>
+          <% end %>
+        </div>
+
         <p class="btns">
           <%= link_to '詳細', task_path(task.id) %>
-          <%= link_to '編集', edit_task_path(task.id), data: { confirm: 'Are you sure to edit?' } %>
+          <%= link_to '編集', edit_task_path(task.id), class: "edit_task" %>
           <%= link_to '削除', task_path(task.id), method: :delete, data: { confirm: 'Are you sure?' } %>
         </p>
       </li>

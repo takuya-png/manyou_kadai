@@ -36,9 +36,13 @@
     <%= form.select :priority, Task.priorities.keys %>
   </div>
 
-  <div class="actions">
-      <%= form.submit %>
-    </div>
-  <% end %> 
- <p class="goto_back"><%= link_to "back to top", tasks_path %></p>
+  <div class="field">
+      <%= form.collection_check_boxes(:label_ids, Label.all, :id, :name) %>
+  </div>
+
+      <div class="actions">
+          <%= form.submit %>
+      </div>
+    <% end %> 
+  <p class="goto_back"><%= link_to "back to top", tasks_path %></p>
 </section>

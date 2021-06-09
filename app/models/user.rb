@@ -4,8 +4,8 @@ class User < ApplicationRecord
   has_many :tasks, dependent: :destroy
   enum admin: { 一般: false, 管理者: true }
   validates :password, presence: true, length: { minimum: 6 }
-  validates :name,  presence: true, length: { maximum: 30 }
-  validates :email, presence: true, length: { maximum: 30 },format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }
+  validates :name,  presence: true, length: { maximum: 300 }
+  validates :email, presence: true, length: { maximum: 300 },format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }
 
   before_destroy :lost_admin
   private

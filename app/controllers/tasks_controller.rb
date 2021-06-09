@@ -2,31 +2,37 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   def index
-    # @tasks = Task.all.order(params[:sort_expired])
     if params[:sort_expired]
+      # binding.irb
       @tasks = Kaminari.paginate_array(Task.all.order(endtime_at: :desc)).page(params[:page]).per(3)  
       
-    elsif params[:sort_priority] 
+    elsif params[:sort_priority]
+      # binding.irb 
       @tasks = Kaminari.paginate_array(current_user.tasks.order(priority: :desc)).page(params[:page]).per(3)
       
     elsif params[:search]
-      if params[:search_title].present? && params[:search_status].present?
+      # binding.irb
+      if params[:task][:search_title].present? && params[:task][:search_status].present?
+        # binding.irb
         @tasks = Kaminari.paginate_array(current_user.tasks.search_title(params[:search_title]).search_status(params[:search_status])).page(params[:page]).per(3)
         
-      elsif params[:search_title].present?
-        @tasks = Kaminari.paginate_array(current_user.tasks.search_title(params[:search_title])).page(params[:page]).per(3)
-        
-      elsif params[:search_status].present?
-        @tasks = Kaminari.paginate_array(current_user.tasks.search_status(params[:search_status])).page(params[:page]).per(3)
-        
-      elsif params[:search_priority].present?
+      elsif params[:task][:search_title].present?
         # binding.irb
-        @tasks = Kaminari.paginate_array(current_user.tasks.search_priority(params[:search_priority])).page(params[:page]).per(3)
-      elsif params[:search_label].present?
+        @tasks = Kaminari.paginate_array(current_user.tasks.search_title(params[:task][:search_title])).page(params[:page]).per(3)
+        
+      elsif params[:task][:search_status].present?
         # binding.irb
-        @tasks = Kaminari.paginate_array(current_user.tasks.search_label(params[:search_label])).page(params[:page]).per(3)
+        @tasks = Kaminari.paginate_array(current_user.tasks.search_status(params[:task][:search_status])).page(params[:page]).per(3)
+        
+      elsif params[:task][:search_priority].present?
+        # binding.irb
+        @tasks = Kaminari.paginate_array(current_user.tasks.search_priority(params[:task][:search_priority])).page(params[:page]).per(3)
+      elsif params[:task][:search_label].present?
+        # binding.irb
+        @tasks = Kaminari.paginate_array(current_user.tasks.search_label(params[:task][:search_label])).page(params[:page]).per(3)
         
       else
+        # binding.irb
         @tasks = Kaminari.paginate_array(current_user.tasks.order(id: :desc)).page(params[:page]).per(3)
         # @tasks << @tasks.joins(:labels).where(labels: { id: params[:label_id] }) if params[:label_id].present?
       end

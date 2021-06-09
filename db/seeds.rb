@@ -8,17 +8,9 @@ User.create!(name: name,
             admin: true
             )
 
-Label.create!(
-  [
-    {name: 'HTML'},
-    {name: 'CSS'},
-    {name: 'Javascript'},
-    {name: 'Ruby'},
-    {name: 'Ruby on Rails'},
-    {name: 'Git/GitHub'},
-    {name: '課題'},
-    {name: 'グループワーク'},
-    {name: 'ブレスト'},
-    {name: '卒業課題'}
-  ]
-)
+Label.create([
+  { name: '喜' },
+  { name: '怒' },
+  { name: '哀'},
+  { name: '楽'},
+  ])

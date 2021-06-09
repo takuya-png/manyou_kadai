@@ -11,5 +11,5 @@ class Task < ApplicationRecord
   scope :search_title, -> (search_title) { where("title LIKE ?", "%#{search_title}%") }
   scope :search_status, -> (search_status) { where(status: search_status)}
   scope :search_priority, -> (search_priority) { where(priority: search_priority)}
-  scope :search_label, -> (search_label) { joins(:labels).where(label: { id: search_label })}
+  scope :search_label, -> (search_label) { joins(:labels).where(labels: { id: search_label })}
 end
